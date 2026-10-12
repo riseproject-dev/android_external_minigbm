@@ -3,9 +3,7 @@
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 
-soong_namespace {
-    imports: ["device/spacemit/k1/mesa"],
-}
+soong_namespace {}
 
 cc_library_shared {
     name: "libgbm_mesa_wrapper",
@@ -25,9 +23,11 @@ cc_library_shared {
     shared_libs: [
         "libcutils",
         "libdrm",
-        "libgbm_mesa",
         "liblog",
-    ],
+    ] + select(soong_config_variable("minigbm", "mesa_module"), {
+        any @ module: [module],
+        default: [],
+    }),
 
     header_libs: [
         "minigbm_headers",
